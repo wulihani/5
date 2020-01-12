@@ -51,8 +51,33 @@ wire video_active;//一帧图像有效区域 h_active&v_active
 reg video_active_d0;//video_active一个时钟的延迟
 assign hs = hs_reg_d0;
 assign vs = vs_reg_d0;
-assign video_active = h_act
+assign video_active = h_active;
 
+  always@(posedge clk or posedge rst)
+    begin
+      if(rst)
+        h_cnt <= 12'd0;
+      else if(h_cnt <= H_TOTAL - 1)//行计数器到最大值清零
+        h_cnt <= 12'd0;
+      else
+        h_cnt <= h_cnt +12'd1;
+    end
+  always@(posedge clk or posedge rst)
+    begin
+      if(rst)
+        active_x <=12'd0;
+      else if(h_cnt >= H_FP + H_SYNC + H_BP -1)//计算图像X坐标
+        active_x <= h_cnt -(H_FP[11:0] + H_SYNC[11:0] + H_BP[11:0] - 12'd1);
+      else
+        active_x <= active_x;
+    end
+  always@(posedge clk or posedge rst)
+    begin
+      if(rst)
+        hs_reg <= 1'b0;
+      else if(h_cnt == H_FP - 1)//在行计算器为H_FP - 1的时候场显示器+1或清零
+      
+      
 endmodule
 
 
