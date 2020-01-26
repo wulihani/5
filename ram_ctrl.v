@@ -8,9 +8,11 @@ module ram_ctrl(
   input cmos_frame_clken,//数据有效使能信号
   input cmos_frame_vsync,//帧有效信号
   input cmos_frame_href,//行有效信号
+  input hdmi_scan,//hdmi扫描信号
   
  // inout coms_frame_dat, //有效数据
   output [16:0]ram_addr,//ram地址信号
+  output ram_clk,//ram地址时钟
   output ram_ctrl_0,//ram0选择信号
   output ram_ctrl_1//ram1选择信号
 );
